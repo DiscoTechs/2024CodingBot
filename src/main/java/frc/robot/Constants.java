@@ -18,6 +18,7 @@ public final class Constants {
   }
 
   public static class MotorConstants {
-    public static final int Motor = 7;
+    public static final int SparkMAXMotor = 7;
+    public static final int VictorMotor = 56;
   }
 }

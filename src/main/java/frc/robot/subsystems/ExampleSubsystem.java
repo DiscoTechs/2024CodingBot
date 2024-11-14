@@ -4,16 +4,19 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj2.command.Command;
-import com.revrobotics.CANSparkMax;
 import frc.robot.Constants;
 
 public class ExampleSubsystem extends SubsystemBase {
-  private CANSparkMax motor = new CANSparkMax(Constants.MotorConstants.Motor, MotorType.kBrushless);
-  private boolean inverted = false;
+  // private CANSparkMax motor = new CANSparkMax(Constants.MotorConstants.Motor, MotorType.kBrushless);
+  private VictorSPX motor = new VictorSPX(Constants.MotorConstants.VictorMotor);
+  private Joystick joy1 = new Joystick(0);
+  private boolean inverted = false; 
   private double speed = 0.0;
 
   /** Creates a new ExampleSubsystem. */
@@ -51,17 +54,21 @@ public class ExampleSubsystem extends SubsystemBase {
   }
 
   public double getEncoderValue() {
-    return motor.getEncoder().getPosition();
+    return 0;
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
 
+    double motorSpeed = joy1.getRawAxis(4) * 0.6;
+    motor.set(VictorSPXControlMode.PercentOutput, motorSpeed);
+
     SmartDashboard.putNumber("Speed", speed);
     SmartDashboard.putNumber("Encoder Absolute", this.getEncoderValue());
 
-    motor.set(speed);
+    // motor.set(speed);
+    // motor.set(VictorSPXControlMode.PercentOutput, speed);
   }
 
   @Override
